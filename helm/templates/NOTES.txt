@@ -1,0 +1,25 @@
+Thank you for installing {{ include "app.fullname" . }} in namespace {{ .Release.Namespace }}.
+
+This chart renders one Deployment per service defined under `values.yaml: services:` and one Service per exposed port.
+
+If `postgresql.enabled=true`, a Bitnami PostgreSQL instance will also be installed. Connection env you may use:
+  host: {{ include "app.fullname" . }}-postgresql
+  user: {{ .Values.postgresql.auth.username }}
+  db:   {{ .Values.postgresql.auth.database }}
+
+---
+# .helmignore
+# Common VCS dirs
+.git/
+.hg/
+.svn/
+
+# IDE files
+.idea/
+.vscode/
+
+# Mac/Win system files
+.DS_Store
+Thumbs.db
+
+---

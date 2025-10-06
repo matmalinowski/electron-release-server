@@ -1,0 +1,84 @@
+services:
+  app:
+    image: justinnovate/electron-release-server
+    tag: latest
+    pullPolicy: Always
+    # Command is defined in the image (CMD ["npm","start"]) so we omit it here.
+    command: []
+    args: []
+    replicas: 2
+    env:
+      NODE_ENV: production
+      PORT: "80"
+    envFromSecret: "" # set if you want to import env from a Secret
+    ports:
+    - name: http
+    containerPort: 80
+    protocol: TCP
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 80
+      targetPort: 80
+      annotations: {}
+    resources: {}
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    serviceAccountName: ""
+    # Basic HTTP probes. Adjust path if your app exposes a dedicated health endpoint.
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 15
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    volumeMounts: []
+    volumes: []
+    annotations: {}
+    labels: {}
+
+
+# Global image pull secrets (if your compose used private registries)
+imagePullSecrets: [] # e.g. [ { name: regcred } ] (if your compose used private registries)
+
+postgresql:
+  enabled: true
+  image:
+  # Bitnami policy change: use legacy image repo
+    repository: bitnamilegacy/postgresql
+  # registry and tag can also be overridden if needed
+  # registry: docker.io
+  # tag: 16
+  primary:
+    persistence:
+      enabled: true
+      size: 10Gi
+  auth:
+    username: app
+    password: change-me
+    database: appdb
+
+ingress:
+  app:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: app.example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            servicePort: 80
+    tls: []
+
+
+# Common labels/annotations to add to all resources
+commonLabels: {}
+commonAnnotations: {}
