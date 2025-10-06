@@ -2,7 +2,10 @@ FROM node:lts-trixie-slim
 
 RUN apt-get update && apt-get install -y \
   python3 \
-  python3-distutils && \
+  python3-venv \
+  python3-pip \
+  python3-setuptools \
+  build-essential python3-dev \
   rm -rf /var/lib/apt/lists/*
 
 # Create app directory
