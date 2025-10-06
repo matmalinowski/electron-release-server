@@ -1,4 +1,4 @@
-FROM node:lts-trixie-slim
+FROM node:lts-trixie
 
 # Create app directory
 WORKDIR /usr/src/electron-release-server
