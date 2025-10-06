@@ -1,4 +1,9 @@
-FROM node:lts-trixie
+FROM node:lts-trixie-slim
+
+RUN apt-get update && apt-get install -y \
+  python3 \
+  python3-distutils && \
+  rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /usr/src/electron-release-server
