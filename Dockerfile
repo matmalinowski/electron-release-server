@@ -1,6 +1,8 @@
 FROM node:lts-trixie-slim
 
 RUN apt-get update && apt-get install -y \
+  git \
+  ca-certificates \
   python3 \
   python3-venv \
   python3-pip \
